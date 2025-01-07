@@ -5,8 +5,10 @@ import PlayList from "./components/PlayList";
 import {defaultPlayList, PlayListItem} from "./constant.ts";
 import {ChangeEventHandler, useEffect, useRef, useState} from "react";
 import {padLeft} from "./utils.ts";
+import useAudioVisualization from "./hooks/useAudioVisualization";
 
 function App() {
+    const { resetCanvas } = useAudioVisualization("#canvas", 50);
     const [ playList, setPlayList ] = useState<PlayListItem[]>(defaultPlayList);
     const [ currTime, setCurrTime ] = useState<string>("00:00");
     const [currAudio,setCurrAudio] = useState<PlayListItem>(defaultPlayList[0]);
@@ -47,6 +49,10 @@ function App() {
         }, 500)
         return () => window.clearInterval(id);
     }, [])
+
+    useEffect(() => {
+        resetCanvas();
+    }, []);
 
     return (
         <div className={styles.app}>
