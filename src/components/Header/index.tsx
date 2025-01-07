@@ -1,4 +1,5 @@
 import {FC, HTMLAttributes} from "react";
+import styles from  "./styles.module.scss"
 
 type Props = HTMLAttributes<HTMLHeadElement>
 
@@ -6,7 +7,7 @@ type Props = HTMLAttributes<HTMLHeadElement>
 const Header: FC<Props> = (props) => {
 
     return (
-        <header>
+        <header className={styles.header}>
             {props.children}
         </header>
     )

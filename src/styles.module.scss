@@ -13,6 +13,10 @@ body {
   background: black;
 }
 
+audio::-webkit-media-controls-panel {
+  background: white;
+}
+
 .app {
   display: flex;
   padding: 16px;
@@ -27,7 +31,7 @@ body {
 
   .playerListWrapper {
     display: flex;
-    margin-right: 16px;
+    margin-left: 16px;
     flex-direction: column;
     justify-content: space-between;
   }
