@@ -8,7 +8,7 @@ import {padLeft} from "./utils.ts";
 import useAudioVisualization from "./hooks/useAudioVisualization";
 
 function App() {
-    const { resetCanvas } = useAudioVisualization("#canvas", 50);
+    const { visualize, stopVisualize, resetCanvas } = useAudioVisualization("#canvas", 50);
     const [ playList, setPlayList ] = useState<PlayListItem[]>(defaultPlayList);
     const [ currTime, setCurrTime ] = useState<string>("00:00");
     const [currAudio,setCurrAudio] = useState<PlayListItem>(defaultPlayList[0]);
@@ -17,14 +17,16 @@ function App() {
 
     const onPlay = async () => {
       if(audioRef.current){
+          stopVisualize()
           await audioRef.current.play();
+          const audioEl = audioRef.current as any;
+          const stream = audioEl.mozCaptureStream ? audioEl.mozCaptureStream : audioEl.captureStream();
+          visualize(stream);
       }
     }
 
-    const onPause= () => {
-        if(audioRef.current){
-            audioRef.current.pause();
-        }
+    const onPause= async () => {
+        resetCanvas();
     }
 
     const onUpload:ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -52,6 +54,9 @@ function App() {
 
     useEffect(() => {
         resetCanvas();
+        return () => {
+            stopVisualize();
+        }
     }, []);
 
     return (
