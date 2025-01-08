@@ -1,10 +1,8 @@
-import dukou from './assets/dukou.flac';
-import guyongzhe from './assets/guyongzhe.flac';
-import zheshijienameduoren from '../../ttplayer/src/assets/zheshijienameduoren.flac';
 import jinitaimei from './assets/jinitaimei.mp3';
-import newThang from './assets/new-thang.flac';
-import gao from './assets/gao.flac';
-import kong from './assets/kong.flac';
+import default1 from './assets/40mP (40㍍P) _ 初音未来 (初音ミク) - 恋愛裁判.ogg'
+import default2 from './assets/Maroon 5 - Feelings.ogg';
+import default3 from './assets/ヨルシカ (Yorushika) - 夜行.ogg';
+import default4 from './assets/陈绮贞 - 旅行的意义 (TRAVEL IS MEANINGFUL) (Single Version).ogg'
 
 export interface PlayListItem {
     name: string;
@@ -13,31 +11,23 @@ export interface PlayListItem {
 
 export const defaultPlayList: PlayListItem[] = [
     {
-        name: 'SWIN-S - 🐔你太美',
+        name: '只因你太美',
         url: jinitaimei,
     },
     {
-        name: '蔡琴 - 渡口',
-        url: dukou,
+        name: '40mP (40㍍P) _ 初音未来 (初音ミク) - 恋愛裁判',
+        url: default1,
     },
     {
-        name: '陈奕讯 - 蛄蛹者',
-        url: guyongzhe,
+        name: 'Maroon 5 - Feelings',
+        url: default2,
     },
     {
-        name: '莫文蔚 - 这世界那么多人',
-        url: zheshijienameduoren,
+        name: 'ヨルシカ (Yorushika) - 夜行',
+        url: default3,
     },
     {
-        name: 'Redfoo - New Thang',
-        url: newThang,
-    },
-    {
-        name: 'RADWIMPS - 陽菜と、走る帆高',
-        url: gao,
-    },
-    {
-        name: 'RADWIMPS - 晴れゆく空',
-        url: kong,
+        name: '陈绮贞 - 旅行的意义 (TRAVEL IS MEANINGFUL) (Single Version)',
+        url: default4,
     },
 ]
