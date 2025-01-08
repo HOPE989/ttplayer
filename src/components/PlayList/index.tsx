@@ -4,10 +4,10 @@ import styles from "./styles.module.scss"
 import classNames from "classnames";
 
 interface Props {
-    playList: PlayListItem[],
     playItem: PlayListItem,
     setPlayItem: (value: (((prevState: PlayListItem) => PlayListItem) | PlayListItem)) => void,
-    onUpload: React.ChangeEventHandler<HTMLInputElement>
+    onUpload: React.ChangeEventHandler<HTMLInputElement>,
+    playList: Set<PlayListItem>
 }
 
 const PlayList: FC<Props> = (props) => {
@@ -16,7 +16,7 @@ const PlayList: FC<Props> = (props) => {
     return (
         <div className={styles.listWrapper}>
             <ul className={styles.list}>
-                {playList.map((audio, index) => (
+                {(Array.from(playList)).map((audio, index) => (
                     <li key={audio.url}
                         className={classNames({[styles.active]: playItem.url === audio.url})}
                         onClick={() => setPlayItem(audio)}
@@ -28,7 +28,7 @@ const PlayList: FC<Props> = (props) => {
             <div className={styles.upload}>
                 <label>
                     <span>添加</span>
-                    <input type="file" onChange={onUpload} accept="audio/*"/>
+                    <input type="file" onChange={onUpload} accept="audio/*" multiple/>
                 </label>
             </div>
         </div>

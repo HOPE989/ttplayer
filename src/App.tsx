@@ -7,9 +7,11 @@ import {ChangeEventHandler, useEffect, useRef, useState} from "react";
 import {padLeft} from "./utils.ts";
 import useAudioVisualization from "./hooks/useAudioVisualization";
 
+const MAX_LENGTH = 30;
+
 function App() {
     const { visualize, stopVisualize, resetCanvas } = useAudioVisualization("#canvas", 50);
-    const [ playList, setPlayList ] = useState<PlayListItem[]>(defaultPlayList);
+    const [ playList, setPlayList ] = useState<Set<PlayListItem>>(new Set(defaultPlayList));
     const [ currTime, setCurrTime ] = useState<string>("00:00");
     const [currAudio,setCurrAudio] = useState<PlayListItem>(defaultPlayList[0]);
 
@@ -31,11 +33,20 @@ function App() {
 
     const onUpload:ChangeEventHandler<HTMLInputElement> = (e) => {
         if(e.target.files){
-            const [file] = e.target.files;
-            const blobUrl = URL.createObjectURL(file);
-            const [fileName] = file.name.split(".");
-            setCurrAudio({name: fileName, url: blobUrl});
-            setPlayList([...playList, {name: fileName, url: blobUrl}]);
+            const files: PlayListItem[] = [];
+            Array.from(e.target.files).forEach(file => {
+                const blobUrl = URL.createObjectURL(file);
+                const [fileName] = file.name.split(".");
+                const newFile = { name: fileName, url: blobUrl };
+
+                // 只添加不重复的文件
+                if (!Array.from(playList).some(item => item.name === newFile.name)) {
+                    console.log(newFile);
+                    files.push(newFile);
+                    setCurrAudio(newFile);
+                }
+            })
+            setPlayList(prevPlayList => new Set([...prevPlayList, ...files]));
         }
     }
 
@@ -63,7 +74,7 @@ function App() {
         <div className={styles.app}>
             <div className={styles.playerWrapper}>
                 <Header>
-                    正在播放：{currAudio.name}
+                    正在播放：{currAudio.name.length > 20? currAudio.name.slice(0, MAX_LENGTH) + "...": currAudio.name}
                     <span style={{marginLeft: "auto"}}>{currTime}</span>
                 </Header>
                 <Player ref={audioRef} onPlay={onPlay} onPause={onPause} playItem={currAudio} />
